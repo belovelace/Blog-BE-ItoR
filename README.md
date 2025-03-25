@@ -2,15 +2,6 @@
 
 # Blog 만들기
 
-## 미션 요구사항
-
-1. 미션 진행 방법을 꼭 읽고 진행해주세요
-   [미션 진행 방법](https://www.notion.so/46dbd9440a4f4d5e97228011dff70f5a?pvs=21)
-2. 해당 ReadMe 를 지우고 erd 및 디렉토리 구조를 작성해주세요
-    1. erd를 그리는 방법은 자유입니다
-    2. 디렉토리 구조도 자유롭게 설정하셔도 좋습니다
-3. 아래 API 요구사항은 API URI를 포함하고 있습니다. 반드시 URI를 지켜서 구현해주세요
-
 `ex) GET posts/all`
 ![블로그 1주차 erd](https://github.com/user-attachments/assets/db86eb59-bba7-45f0-a559-a92fd5cfc210)
 ![image](https://github.com/user-attachments/assets/834a9589-d526-47f4-aeab-f27f82226723)
