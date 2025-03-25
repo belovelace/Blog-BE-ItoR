@@ -3,9 +3,16 @@
 # Blog 만들기
 
 `ex) GET posts/all`
+
+## ERD
+
 ![블로그 1주차 erd](https://github.com/user-attachments/assets/db86eb59-bba7-45f0-a559-a92fd5cfc210)
+
+## 요구사항 정의서
+
 ![image](https://github.com/user-attachments/assets/834a9589-d526-47f4-aeab-f27f82226723)
 
+## 디렉토리
 ```
 /blog-backend
  ├── src
