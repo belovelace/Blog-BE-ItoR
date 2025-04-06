@@ -13,4 +13,7 @@ public interface MemberMapper {
     //회원 정보 삽입
     void insertMember(MemberVo vo);
 
+    MemberVo selectById(String id);
+
+
 }//interface

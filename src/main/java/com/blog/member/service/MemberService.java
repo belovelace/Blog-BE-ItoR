@@ -27,15 +27,13 @@ public class MemberService {
         System.out.println(">>> 등록된 MemberMapper 빈: " + Arrays.toString(names));
     }
 
+
+
     public int join(MemberVo vo) {
         mapper.insertMember(vo);
         return 1; // 성공 시 1 반환 (또는 원하는 처리 결과 반환)
     }
 
-
-    public boolean existsByEmail(String email){
-        return mapper.selectByEmail(email) != null;
-    }
 
     public void insertMember(MemberVo vo){
 
@@ -62,6 +60,25 @@ public class MemberService {
 
         // 로그인 성공 시 해당 회원 정보 반환
         return dbMember;
+    }
+
+/*
+---------------------------------------------------------------------------
+ */
+
+    //회원 정보 조회
+    public MemberVo findById(String memberId) {
+        return mapper.selectById(memberId);
+    }
+
+    //회원 정보 조회
+    public MemberVo findByEmail(String email) {
+        return mapper.selectByEmail(email);
+    }
+    
+    //이메일 중복 여부 확인
+    public boolean existsByEmail(String email){
+        return mapper.selectByEmail(email) != null;
     }
 
 

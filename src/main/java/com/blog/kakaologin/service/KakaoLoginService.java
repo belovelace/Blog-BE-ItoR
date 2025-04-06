@@ -1,9 +1,10 @@
 package com.blog.kakaologin.service;
 
-
 import com.blog.kakaologin.util.KakaoLoginUtil;
 import com.blog.member.service.MemberService;
 import com.blog.member.vo.MemberVo;
+import com.blog.oauth.service.OauthService;
+import com.blog.oauth.vo.OauthVo;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,55 +12,82 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.UUID;
 
-@Service //스프링이 인식하는 서비스 계층
+@Service
 public class KakaoLoginService {
 
     @Autowired
     private MemberService memberService;
 
+    @Autowired
+    private OauthService oauthService;
 
     public String kakaoLogin(String code) {
-
         try {
-            //1) 인가코드로 액세스 토큰 요청
-            String accessToken = KakaoLoginUtil.getAccessToken(code);
-            //2) 액세스 토큰으로 사용자 정보 요청
-            JSONObject userInfo = KakaoLoginUtil.getUserInfo(accessToken);
-
-            //3) 사용자 정보에 이메일, 닉네임 꺼내기
-            String email = userInfo.getString("email");
-            String nickname = userInfo.getString("nickname");
-
-            //4) MemberVo 생성
-            System.out.println("카카오 응답 nickname: " + nickname);
-            System.out.println("카카오 응답 email: " + email);
-
-            MemberVo member = new MemberVo();
-            member.setId(UUID.randomUUID().toString().replace("-", ""));
-            member.setEmail(email);
-            member.setNick(nickname);
-            member.setName(nickname);
-            member.setBio(null);
-            member.setPwd(null);
-            member.setBirthdate(null);
-            member.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-            member.setActive(true);
-
-
-            System.out.println(">> 최종 insert 대상 VO = " + member);
-
-            //5) DB 저장 또는 기존 회원이면 패스
-            if (!memberService.existsByEmail(email)) {
-                memberService.insertMember(member);
-            }
-            return "로그인 성공! 닉네임: " + nickname + ", 이메일: " + email;
-
+            String accessToken = getAccessTokenFromKakao(code);
+            JSONObject userInfo = getUserInfoFromKakao(accessToken);
+            MemberVo member = processOauthLogin(userInfo);
+            return "로그인 성공! 닉네임: " + member.getNick() + ", 이메일: " + member.getEmail();
         } catch (Exception e) {
-            e.printStackTrace(); //에러 로그 찍고 예외 메세지 전달
+            e.printStackTrace();
             return "로그인 실패: " + e.getMessage();
         }
+    }
 
+    private String getAccessTokenFromKakao(String code) throws Exception {
+        return KakaoLoginUtil.getAccessToken(code);
+    }
 
+    private JSONObject getUserInfoFromKakao(String accessToken) throws Exception {
+        return KakaoLoginUtil.getUserInfo(accessToken);
+    }
+
+    private MemberVo processOauthLogin(JSONObject userInfo) {
+        String email = userInfo.getString("email");
+        String nickname = userInfo.getString("nickname");
+        String kakaoId = String.valueOf(userInfo.getLong("id"));
+
+        OauthVo oauth = oauthService.findByOauth("kakao", kakaoId);
+        MemberVo member;
+
+        if (oauth != null) {
+            // 이미 Oauth가 등록된 경우 → 기존 회원으로 로그인
+            member = memberService.findById(oauth.getMemberId());
+        } else {
+            // Oauth가 없는 경우 → 이메일 중복 체크
+            if (memberService.existsByEmail(email)) {
+                // 기존 이메일 회원이 있다면 → Oauth만 연결하고 로그인
+                member = memberService.findByEmail(email);
+                insertOauthAccount(kakaoId, member.getId());
+            } else {
+                // 신규 가입 로직
+                member = createNewMember(email, nickname);
+                insertOauthAccount(kakaoId, member.getId());
+            }
+        }
+        return member;
+    }
+
+    private MemberVo createNewMember(String email, String nickname) {
+        MemberVo member = new MemberVo();
+        member.setId(UUID.randomUUID().toString().replace("-", ""));
+        member.setEmail(email);
+        member.setNick(nickname);
+        member.setName(nickname);
+        member.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        member.setActive(true);
+
+        memberService.insertMember(member);
+        return member;
+    }
+
+    private void insertOauthAccount(String kakaoId, String memberId) {
+        OauthVo oauthVo = new OauthVo();
+        oauthVo.setId(UUID.randomUUID().toString().replace("-", ""));
+        oauthVo.setProvider("kakao");
+        oauthVo.setProviderUserId(kakaoId);
+        oauthVo.setMemberId(memberId);;
+
+        oauthService.insertOauth(oauthVo);
     }
 
 

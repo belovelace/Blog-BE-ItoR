@@ -5,7 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan(basePackages = "com.blog")
+@MapperScan(basePackages = {
+		"com.blog.member.mapper",
+		"com.blog.oauth.mapper"
+})
 
 public class BlogApplication {
 

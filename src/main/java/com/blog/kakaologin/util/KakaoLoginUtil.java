@@ -93,20 +93,20 @@ public class KakaoLoginUtil {
 
         JSONObject json = new JSONObject(response.toString());
 
+        Long kakaoId = json.getLong("id");
+
         //email, nick 추출 후 Json으로 변환
         JSONObject kakaoAccount = json.getJSONObject("kakao_account");
         JSONObject profile = kakaoAccount.getJSONObject("profile");
-
         JSONObject result = new JSONObject();
 
-        // 이메일은 존재할 수도, 안 할 수도 있음 → 방어처리!
         if (kakaoAccount.has("email")) {
             result.put("email", kakaoAccount.getString("email"));
         } else {
             result.put("email", "no-email");  // 혹은 null
         }
 
-        // 닉네임은 보통 항상 존재함
+        result.put("id", kakaoId);
         result.put("nickname", profile.getString("nickname"));
 
         return result;
