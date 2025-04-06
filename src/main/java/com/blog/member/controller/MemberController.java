@@ -41,7 +41,7 @@ public class MemberController {
 
     
     //로그아웃
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate(); // 세션 무효화
         return "로그아웃 성공"; // 로그아웃 후 홈으로 리디렉션
