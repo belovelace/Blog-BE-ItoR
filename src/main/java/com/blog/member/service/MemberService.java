@@ -21,12 +21,13 @@ public class MemberService {
     private ApplicationContext context;
 
 
+
+
     @PostConstruct
     public void checkMapper() {
         String[] names = context.getBeanNamesForType(MemberMapper.class);
         System.out.println(">>> 등록된 MemberMapper 빈: " + Arrays.toString(names));
     }
-
 
 
     public int join(MemberVo vo) {

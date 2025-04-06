@@ -7,8 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface OauthMapper {
 
     OauthVo findByOauth(String provider, String providerUserId);
-
-
     void insertOauth(OauthVo oauthVo);
 
 

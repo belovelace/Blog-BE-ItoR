@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("member")
 public class MemberController {
 
+    @Autowired
     private MemberService service;
 
     public MemberController(MemberService service) {
@@ -46,5 +47,6 @@ public class MemberController {
         session.invalidate(); // 세션 무효화
         return "로그아웃 성공"; // 로그아웃 후 홈으로 리디렉션
     }
+
 
 }//class

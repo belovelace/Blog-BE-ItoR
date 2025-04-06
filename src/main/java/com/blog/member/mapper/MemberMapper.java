@@ -10,10 +10,12 @@ public interface MemberMapper {
     //이메일로 회원 조회
     MemberVo selectByEmail(@Param("email") String email);
 
+    //Id로 회원 조회
+    MemberVo selectById(String id);
+
     //회원 정보 삽입
     void insertMember(MemberVo vo);
 
-    MemberVo selectById(String id);
 
 
 }//interface

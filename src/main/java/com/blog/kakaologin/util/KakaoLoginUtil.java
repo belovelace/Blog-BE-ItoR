@@ -25,7 +25,6 @@ public class KakaoLoginUtil {
         conn.setDoOutput(true);
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
-
         String params = "grant_type=authorization_code"
             + "&client_id=" + CLIENT_ID
             + "&redirect_uri=" + REDIRECT_URI
@@ -46,14 +45,12 @@ public class KakaoLoginUtil {
             response.append(line);
         }
 
-
-
         reader.close();
     conn.disconnect();
 
+    //디버깅용... 개발 끝나면 지울게요 ㅠ
     System.out.println("💡 카카오 인가 코드: " + code);
     System.out.println("💬 카카오 토큰 응답: " + response);
-
 
     //JSON 파싱해서 토큰 추출
     JSONObject obj = new JSONObject(response.toString());
@@ -65,7 +62,8 @@ public class KakaoLoginUtil {
     return obj.getString("access_token");
     }
 
-    //엑세스 토큰으로 사용자 정보 요청
+
+
     public static JSONObject getUserInfo(String accessToken) throws Exception {
 
         String requestUrl = "https://kapi.kakao.com/v2/user/me";
@@ -73,9 +71,8 @@ public class KakaoLoginUtil {
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
 
-        conn.setRequestMethod("GET"); // ← 여기는 "GET"만!
+        conn.setRequestMethod("GET");
         conn.setRequestProperty("Authorization", "Bearer " + accessToken); // ← 헤더는 여기서 설정!
-
 
 
         //응답 읽기
@@ -87,7 +84,6 @@ public class KakaoLoginUtil {
             response.append(line);
         }
 
-
         reader.close();
         conn.disconnect();
 
@@ -95,7 +91,6 @@ public class KakaoLoginUtil {
 
         Long kakaoId = json.getLong("id");
 
-        //email, nick 추출 후 Json으로 변환
         JSONObject kakaoAccount = json.getJSONObject("kakao_account");
         JSONObject profile = kakaoAccount.getJSONObject("profile");
         JSONObject result = new JSONObject();
@@ -103,7 +98,7 @@ public class KakaoLoginUtil {
         if (kakaoAccount.has("email")) {
             result.put("email", kakaoAccount.getString("email"));
         } else {
-            result.put("email", "no-email");  // 혹은 null
+            result.put("email", "no-email");
         }
 
         result.put("id", kakaoId);

@@ -67,6 +67,7 @@ public class KakaoLoginService {
         return member;
     }
 
+    // tlsr
     private MemberVo createNewMember(String email, String nickname) {
         MemberVo member = new MemberVo();
         member.setId(UUID.randomUUID().toString().replace("-", ""));
