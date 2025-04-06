@@ -27,8 +27,17 @@ public class MemberController {
          return "redirect:/login";
     }
 
+    //로그인
+    @PostMapping("login")
+    public String login(@RequestBody MemberVo vo, HttpSession session){
+        MemberVo loginMember = service.login(vo);
+        if(loginMember == null){
+            throw new RuntimeException("[M-01] 이메일 또는 비밀번호가 올바르지 않음");
+        }
 
-    //이메일로 로그인
+        session.setAttribute("loginMember", loginMember);
+        return "로그인 성공";
+    }
 
     
     //로그아웃

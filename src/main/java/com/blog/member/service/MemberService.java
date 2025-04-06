@@ -51,5 +51,19 @@ public class MemberService {
     }
 
 
+    public MemberVo login(MemberVo vo) {
+        // DB에서 이메일로 회원 조회
+        MemberVo dbMember = mapper.selectByEmail(vo.getEmail());
+
+        // 조회된 회원이 없거나 비밀번호 불일치 시 로그인 실패
+        if (dbMember == null || !dbMember.getPwd().equals(vo.getPwd())) {
+            return null;
+        }
+
+        // 로그인 성공 시 해당 회원 정보 반환
+        return dbMember;
+    }
+
+
 
 }//class
