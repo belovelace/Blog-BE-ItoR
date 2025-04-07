@@ -1,0 +1,65 @@
+package com.blog.post.controller;
+
+import com.blog.post.service.PostService;
+import com.blog.post.vo.PostDetailVo;
+import com.blog.post.vo.PostEditVo;
+import com.blog.post.vo.PostVo;
+import com.blog.post.vo.PostWriteVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/post")
+public class PostController {
+
+    @Autowired
+    private PostService serviec;
+
+    //게시글 목록 조회
+    @GetMapping("/showPost")
+    public List<PostVo> showPost(@RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "10") int size){
+        return serviec.getPostList(page,size);
+    }
+
+    //게시글 상세 조회
+    @GetMapping("/{postNum}")
+    public PostDetailVo getPostDetail(@PathVariable int postNum) {
+        return serviec.getPostDetail(postNum);
+    }
+
+    //게시글 작성하기
+    @PostMapping("/write")
+    public ResponseEntity<Long> createPost(@RequestBody PostWriteVo vo,
+                                           @RequestHeader ("X-USER-ID") String userId) {
+
+        vo.setAuthorId(userId);
+        long postNum = serviec.createPost(vo);
+
+        return ResponseEntity.ok(postNum);
+    }
+
+    //게시글 수정하기
+    @PutMapping("/edit")
+    public ResponseEntity<?> editPost(@RequestBody PostEditVo vo,
+                                      @RequestHeader("X-USER-ID") String userId) {
+        vo.setAuthorId(userId);
+        serviec.editPost(vo);
+        return ResponseEntity.ok("수정 완료");
+    }
+
+    //게시글 삭제
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<?> deletePost(@RequestBody Long postId,
+                                        @RequestHeader("X-USER-ID") String userId) {
+        serviec.deletePost(postId,userId);
+        return ResponseEntity.ok("게시글 삭제 완료");
+    }
+
+
+
+
+}//class
