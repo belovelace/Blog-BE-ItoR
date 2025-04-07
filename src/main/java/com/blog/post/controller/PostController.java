@@ -53,7 +53,7 @@ public class PostController {
 
     //게시글 삭제
     @DeleteMapping("/{postId}")
-    public ResponseEntity<?> deletePost(@RequestBody Long postId,
+    public ResponseEntity<?> deletePost(@PathVariable Long postId,
                                         @RequestHeader("X-USER-ID") String userId) {
         serviec.deletePost(postId,userId);
         return ResponseEntity.ok("게시글 삭제 완료");
