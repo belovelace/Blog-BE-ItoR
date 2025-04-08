@@ -1,9 +1,9 @@
 package com.blog.post.controller;
 
+import com.blog.post.record.PostRecord;
 import com.blog.post.service.PostService;
 import com.blog.post.vo.PostDetailVo;
 import com.blog.post.vo.PostEditVo;
-import com.blog.post.vo.PostVo;
 import com.blog.post.vo.PostWriteVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +20,8 @@ public class PostController {
 
     //게시글 목록 조회
     @GetMapping("/showPost")
-    public List<PostVo> showPost(@RequestParam(defaultValue = "0") int page,
-                                 @RequestParam(defaultValue = "10") int size){
+    public List<PostRecord> showPost(@RequestParam(defaultValue = "0") int page,
+                                     @RequestParam(defaultValue = "10") int size){
         return serviec.getPostList(page,size);
     }
 

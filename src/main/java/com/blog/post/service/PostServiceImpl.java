@@ -1,6 +1,7 @@
 package com.blog.post.service;
 
 import com.blog.post.dao.PostDao;
+import com.blog.post.record.PostRecord;
 import com.blog.post.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ public class PostServiceImpl implements PostService {
     private PostDao dao;
 
     @Override
-    public List<PostVo> getPostList(int page, int size) {
+    public List<PostRecord> getPostList(int page, int size) {
         return dao.getPostList(page, size);
     }
 

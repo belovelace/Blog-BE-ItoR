@@ -1,6 +1,8 @@
 package com.blog.post.dao;
 
+import com.blog.post.exception.PostException;
 import com.blog.post.mapper.PostMapper;
+import com.blog.post.record.PostRecord;
 import com.blog.post.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,7 +24,7 @@ public class PostDao {
      * @return 게시글 리스트
      */
 
-    public List<PostVo> getPostList(int page, int size) {
+    public List<PostRecord> getPostList(int page, int size) {
         int offset = page * size;
         return mapper.selectPostList(offset, size);
     }
@@ -71,11 +73,12 @@ public class PostDao {
         mapper.updatePostTitle(vo.getPostNum(), vo.getTitle());
         mapper.deleteBlocks(vo.getPostNum());
 
-        // 4. 블록 다시 삽입
         List<ContentBlockVo> blocks = vo.getBlocks();
-        if (blocks != null && !blocks.isEmpty()) {
-            mapper.insertContentBlock(vo.getPostNum(), blocks);
+
+        if (blocks == null || blocks.isEmpty()) {
+            throw new PostException("게시글 내용이 비어 있습니다.");
         }
+            mapper.insertContentBlock(vo.getPostNum(), blocks);
     }
 
     /**

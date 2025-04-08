@@ -1,8 +1,8 @@
 package com.blog.post.mapper;
 
+import com.blog.post.record.PostRecord;
 import com.blog.post.vo.ContentBlockVo;
 import com.blog.post.vo.PostDetailVo;
-import com.blog.post.vo.PostVo;
 import com.blog.post.vo.PostWriteVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -15,7 +15,7 @@ public interface PostMapper {
     //--------조회-----------
 
     // 게시글 목록 조회 (페이징 처리 포함)
-    List<PostVo> selectPostList(@Param("offset") int offset, @Param("limit") int limit);
+    List<PostRecord> selectPostList(@Param("offset") int offset, @Param("limit") int limit);
 
     //게시글 상세 조회
     PostDetailVo selectPostDetail(@Param("postNum") int postNum );
@@ -44,7 +44,7 @@ public interface PostMapper {
     //기존 블록 단위 삭제
     void deleteBlocks(@Param("postId") Long postId);
 
-    //게글 삭제 (소프트 딜리트)
+    //게시글 삭제 (소프트 딜리트)
     void deletePost(@Param("postId") Long postId);
 
 

@@ -1,8 +1,8 @@
 package com.blog.post.service;
 
+import com.blog.post.record.PostRecord;
 import com.blog.post.vo.PostDetailVo;
 import com.blog.post.vo.PostEditVo;
-import com.blog.post.vo.PostVo;
 import com.blog.post.vo.PostWriteVo;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public interface PostService {
      * @param size 페이지당 게시글 수
      * @return 게시글 목록
      */
-    List<PostVo> getPostList(int page, int size);
+    List<PostRecord> getPostList(int page, int size);
 
     /**
      * 게시글 상세 조회

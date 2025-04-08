@@ -41,7 +41,7 @@
     </select>
 
 
-    <select id="selectPostList" resultType="com.blog.post.vo.PostVo">
+    <select id="selectPostList" resultType="com.blog.post.record.PostRecord">
         SELECT
             p.post_num AS id,
             p.title,
