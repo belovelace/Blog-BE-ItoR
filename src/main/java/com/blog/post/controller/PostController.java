@@ -16,19 +16,19 @@ import java.util.List;
 public class PostController {
 
     @Autowired
-    private PostService serviec;
+    private PostService service;
 
     //게시글 목록 조회
     @GetMapping("/showPost")
     public List<PostRecord> showPost(@RequestParam(defaultValue = "0") int page,
                                      @RequestParam(defaultValue = "10") int size){
-        return serviec.getPostList(page,size);
+        return service.getPostList(page,size);
     }
 
     //게시글 상세 조회
     @GetMapping("/{postNum}")
     public PostDetailVo getPostDetail(@PathVariable int postNum) {
-        return serviec.getPostDetail(postNum);
+        return service.getPostDetail(postNum);
     }
 
     //게시글 작성하기
@@ -37,7 +37,7 @@ public class PostController {
                                            @RequestHeader ("X-USER-ID") String userId) {
 
         vo.setAuthorId(userId);
-        long postNum = serviec.createPost(vo);
+        long postNum = service.createPost(vo);
 
         return ResponseEntity.ok(postNum);
     }
@@ -47,7 +47,7 @@ public class PostController {
     public ResponseEntity<?> editPost(@RequestBody PostEditVo vo,
                                       @RequestHeader("X-USER-ID") String userId) {
         vo.setAuthorId(userId);
-        serviec.editPost(vo);
+        service.editPost(vo);
         return ResponseEntity.ok("수정 완료");
     }
 
@@ -55,7 +55,7 @@ public class PostController {
     @DeleteMapping("/{postId}")
     public ResponseEntity<?> deletePost(@PathVariable Long postId,
                                         @RequestHeader("X-USER-ID") String userId) {
-        serviec.deletePost(postId,userId);
+        service.deletePost(postId,userId);
         return ResponseEntity.ok("게시글 삭제 완료");
     }
 

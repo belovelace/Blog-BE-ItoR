@@ -9,4 +9,6 @@ public record PostRecord<LocalDateTime>(
         String writerProfileImg,    // 작성자 프로필 이미지 URL
         LocalDateTime createdAt,    // 작성일시
         int commentCount            // 댓글 수
-) { }
+)
+
+{ }//record
