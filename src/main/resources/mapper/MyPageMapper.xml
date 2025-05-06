@@ -18,6 +18,15 @@
         WHERE m.id = #{memberId}
     </select>
 
+    <update id="updateMyInfo">
+        UPDATE MEMBER
+        SET name      = #{name},
+            nick      = #{nickname},
+            bio       = #{intro},
+            birthdate = #{birthday}
+        WHERE id = #{memberId}
+    </update>
+
 
 
 
