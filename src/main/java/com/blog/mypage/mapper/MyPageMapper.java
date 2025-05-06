@@ -19,6 +19,14 @@ public interface MyPageMapper {
             @Param("birthday") String birthday
     );
 
+    //-----------삭제-------------
+    void deleteProfileImg(@Param("memberId") String memberId);
+    //-----------삽입-------------
+    void insertProfileImg(
+            @Param("memberId") String memberId,
+            @Param("url")      String url
+    );
+
 
 
 

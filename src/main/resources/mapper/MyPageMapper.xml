@@ -27,6 +27,19 @@
         WHERE id = #{memberId}
     </update>
 
+    <delete id="deleteProfileImg">
+        DELETE FROM PROFILE_IMG
+        WHERE member_id = #{memberId}
+    </delete>
+
+    <insert id="insertProfileImg">
+        INSERT INTO PROFILE_IMG (
+            member_id, profile_img_url, uploaded_at
+        ) VALUES (
+                     #{memberId}, #{url}, NOW()
+                 )
+    </insert>
+
 
 
 

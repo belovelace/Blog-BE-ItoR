@@ -3,11 +3,16 @@ package com.blog.mypage.controller;
 import com.blog.member.vo.MemberVo;
 import com.blog.mypage.record.MyInfoRecord;
 import com.blog.mypage.record.MyInfoUpdateRecord;
+import com.blog.mypage.record.ProfileImgUploadRecord;
 import com.blog.mypage.service.MyPageService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 import static java.awt.SystemColor.info;
 
@@ -30,7 +35,8 @@ public class MyPageController {
         MyInfoRecord info =service.getMyInfo(memberId);
         return ResponseEntity.ok(info);
     }
-
+    
+    //내 정보 수정하기
     @PutMapping("/edit")
     public ResponseEntity<Void> updateMyInfo(
             @RequestBody MyInfoUpdateRecord update,
@@ -46,6 +52,22 @@ public class MyPageController {
         return ResponseEntity.noContent().build();
     }
 
+    //프로필 사진 삽입 하기
+    @PostMapping(
+            value = "/info/photo",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    public ResponseEntity<ProfileImgUploadRecord> uploadPhoto(
+            @RequestPart("file") MultipartFile file,
+            HttpSession session
+    ) throws IOException {
+        MemberVo login = (MemberVo) session.getAttribute("loginMember");
+        if (login == null) {
+            return ResponseEntity.status(401).build();
+        }
+        String url = service.uploadProfileImg(login.getId(), file);
+        return ResponseEntity.ok(new ProfileImgUploadRecord(url));
+    }
 
 
 
