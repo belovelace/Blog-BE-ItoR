@@ -12,9 +12,11 @@
             m.email                AS email,
             m.bio                  AS intro,
             DATE_FORMAT(m.birthdate, '%Y-%m-%d') AS birthday,
-            -- 프로필 사진 기능 미구현시 NULL 또는 빈 문자열로 반환
+            p.profile_img_url      AS profileImgUrl,
             NULL                   AS profileImgUrl
         FROM MEMBER m
+        LEFT JOIN PROFILE_IMG p
+        ON m.id = p.member_id
         WHERE m.id = #{memberId}
     </select>
 
