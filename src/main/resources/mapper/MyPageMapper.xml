@@ -42,6 +42,19 @@
                  )
     </insert>
 
+    <select id="selectPassword" resultType="String">
+        SELECT pwd
+        FROM MEMBER
+        WHERE id = #{memberId}
+    </select>
+
+    <update id="updatePassword">
+        UPDATE MEMBER
+        SET pwd = #{newPwd}
+        WHERE id  = #{memberId}
+    </update>
+
+
 
 
 

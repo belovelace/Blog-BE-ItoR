@@ -3,6 +3,7 @@ package com.blog.mypage.controller;
 import com.blog.member.vo.MemberVo;
 import com.blog.mypage.record.MyInfoRecord;
 import com.blog.mypage.record.MyInfoUpdateRecord;
+import com.blog.mypage.record.PasswordChangeRecord;
 import com.blog.mypage.record.ProfileImgUploadRecord;
 import com.blog.mypage.service.MyPageService;
 import jakarta.servlet.http.HttpSession;
@@ -67,6 +68,25 @@ public class MyPageController {
         }
         String url = service.uploadProfileImg(login.getId(), file);
         return ResponseEntity.ok(new ProfileImgUploadRecord(url));
+    }
+
+
+    //비밀번호 수정하기
+    @PutMapping("/info/password")
+    public ResponseEntity<String> changePassword(
+            @RequestBody PasswordChangeRecord req,
+            HttpSession session
+    ) {
+        MemberVo login = (MemberVo) session.getAttribute("loginMember");
+        if (login == null) {
+            return ResponseEntity.status(401).build();
+        }
+        try {
+            service.changePassword(login.getId(), req);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 

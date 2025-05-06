@@ -3,6 +3,7 @@ package com.blog.mypage.service;
 import com.blog.mypage.mapper.MyPageMapper;
 import com.blog.mypage.record.MyInfoRecord;
 import com.blog.mypage.record.MyInfoUpdateRecord;
+import com.blog.mypage.record.PasswordChangeRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,6 +48,22 @@ public class MyPageService {
 
         return url;
     }
+
+    public void changePassword(String memberId, PasswordChangeRecord req) {
+        // 1) 현재 비밀번호 검증
+        String current = mapper.selectPassword(memberId);
+        if (!current.equals(req.oldPwd())) {
+            throw new IllegalArgumentException("틀린 비밀번호입니다. 다시 입력하세요.");
+        }
+        // 2) 새 비밀번호 확인
+        if (!req.newPwd().equals(req.newPwdConfirm())) {
+            throw new IllegalArgumentException("새 비밀번호가 일치하지 않습니다.");
+        }
+        // 3) 업데이트
+        mapper.updatePassword(memberId, req.newPwd());
+    }
+
+
 
 
 
