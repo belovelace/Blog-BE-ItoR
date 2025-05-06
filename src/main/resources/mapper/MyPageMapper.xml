@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.blog.mypage.mapper.MyPageMapper">
+
+    <select id="selectMyInfo" resultType="com.blog.mypage.record.MyInfoRecord">
+        SELECT
+            m.id                   AS memberId,
+            m.name                 AS name,
+            m.nick                 AS nickname,
+            m.email                AS email,
+            m.bio                  AS intro,
+            DATE_FORMAT(m.birthdate, '%Y-%m-%d') AS birthday,
+            -- 프로필 사진 기능 미구현시 NULL 또는 빈 문자열로 반환
+            NULL                   AS profileImgUrl
+        FROM MEMBER m
+        WHERE m.id = #{memberId}
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>
