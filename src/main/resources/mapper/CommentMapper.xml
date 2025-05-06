@@ -12,6 +12,7 @@
         WHERE comment_num = #{commentNum}
     </select>
 
+
     <insert id="insertComment" parameterType="com.blog.comment.record.CommentCreateRecord">
         INSERT INTO COMMENT (member_id, post_id, content)
         VALUES (#{memberId}, #{postId}, #{content})

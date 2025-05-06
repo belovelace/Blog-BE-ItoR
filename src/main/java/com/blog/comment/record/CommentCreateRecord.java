@@ -3,7 +3,7 @@ package com.blog.comment.record;
 public record CommentCreateRecord(
 
         String  memberId,
-        Integer postId,
+        int postId,
         String  content
 
 ) {}//record

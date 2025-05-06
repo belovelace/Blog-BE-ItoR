@@ -20,6 +20,10 @@ public class CommentController {
     public ResponseEntity<List<CommentRecord>> showComments(
             @RequestParam Integer postId
     ) {
+        // postId가 null이면 명시적인 예외 처리
+        if (postId == null) {
+            throw new IllegalArgumentException("postId 파라미터는 필수입니다.");
+        }
         return ResponseEntity.ok(service.getComments(postId));
     }
 
@@ -30,7 +34,7 @@ public class CommentController {
             @RequestHeader("X-USER-ID") String userId
     ) {
         CommentRecord toInsert = new CommentRecord(
-                null,
+                rec.commentNum(),
                 userId,
                 rec.postId(),
                 rec.content(),
@@ -44,17 +48,17 @@ public class CommentController {
     // 댓글 수정 : 작성자만
     @PutMapping("/edit")
     public ResponseEntity<?> editComment(
-            @RequestBody CommentRecord record,
+            @RequestBody CommentRecord rec,
             @RequestHeader("X-USER-ID") String userId
     ) {
         CommentRecord toUpdate = new CommentRecord(
-                record.commentNum(),
+                rec.commentNum(),
                 userId,
-                record.postId(),
-                record.content(),
-                record.createdAt(),
-                record.updateAt(),
-                record.isDeleted()
+                rec.postId(),
+                rec.content(),
+                rec.createdAt(),
+                rec.updateAt(),
+                rec.isDeleted()
         );
         service.updateComment(toUpdate);
         return ResponseEntity.ok("댓글 수정 완료");
@@ -62,13 +66,14 @@ public class CommentController {
 
     @DeleteMapping("/{commentNum}")
     public ResponseEntity<?> deleteComment(
+            @RequestBody CommentRecord rec,
             @PathVariable Integer commentNum,
             @RequestHeader("X-USER-ID") String userId
     ) {
         CommentRecord toDelete = new CommentRecord(
                 commentNum,
                 userId,
-                null,
+                rec.postId(),
                 null,
                 null,
                 null,

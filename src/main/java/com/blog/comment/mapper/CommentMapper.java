@@ -15,9 +15,9 @@ public interface CommentMapper {
 
     //-------------조회----------------
     //게시글 번호로 댓글 목록 조회
-    List<CommentRecord> findByPostId(@Param("postId") Integer postId);
+    List<CommentRecord> findByPostId(@Param("postId") int postId);
 
-    String selectWriterId(@Param("commentNum") Integer commentNum);
+    String selectWriterId(@Param("commentNum") int commentNum);
 
     //-------------수정----------------
     //댓글 내용 수정
@@ -25,7 +25,7 @@ public interface CommentMapper {
 
     //-------------삭제----------------
     //댓글 소프트 딜리트 삭제
-    int delete(@Param("commentNum") Integer commentNum);
+    int delete(@Param("commentNum") int commentNum);
 
 
 

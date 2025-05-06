@@ -28,9 +28,10 @@ public class CommentDao {
      * @param postId 게시글 번호
      * @return 댓글 리스트
      */
-    public List<CommentRecord> getComments(Integer postId) {
+    public List<CommentRecord> getComments(int postId) {
         return mapper.findByPostId(postId);
     }
+
 
     /**
      * 댓글을 DB에 저장한다.

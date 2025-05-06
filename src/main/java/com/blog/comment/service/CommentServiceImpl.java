@@ -16,7 +16,7 @@ public class CommentServiceImpl implements CommentService{
     private CommentDao dao;
 
     @Override
-    public List<CommentRecord> getComments(Integer postId) {
+    public List<CommentRecord> getComments(int postId) {
         return dao.getComments(postId);
     }
 
@@ -55,7 +55,7 @@ public class CommentServiceImpl implements CommentService{
     @Override
     @Transactional
     public void deleteComment(CommentRecord record) {
-        Integer no = record.commentNum();
+        int no = record.commentNum();
         // 1) 작성자 조회
         String writer = dao.getWriterId(no);
         // 2) 레코드 자체가 없거나, 매퍼 누락 시 대비

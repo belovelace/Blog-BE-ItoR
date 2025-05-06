@@ -2,13 +2,13 @@ package com.blog.comment.record;
 
 public record CommentRecord(
 
-        Integer commentNum,   // 댓글 식별자 (PK)
+        int commentNum,   // 댓글 식별자 (PK)
         String memberId,      // 작성자 아이디 (FK to MEMBER.id)
-        Integer postId,       // 게시글 번호 (FK to POST.post_num)
+        int postId,       // 게시글 번호 (FK to POST.post_num)
         String content,       // 댓글 내용
         String createdAt,     // 생성일 (TIMESTAMP -> 문자열로 처리)
         String updateAt,      // 수정일 (TIMESTAMP -> 문자열로 처리)
-        Boolean isDeleted     // 삭제 여부
+        boolean isDeleted     // 삭제 여부
 
 ) { }//record
 

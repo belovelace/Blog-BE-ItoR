@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CommentService {
 
-    List<CommentRecord> getComments(Integer postId);
+    List<CommentRecord> getComments(int postId);
     int    createComment(CommentRecord record);
     void   updateComment(CommentRecord record);
     void   deleteComment(CommentRecord record);
