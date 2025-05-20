@@ -82,6 +82,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+
       - name: application.properties 생성
         run: |
           mkdir -p src/main/resources
@@ -89,7 +97,7 @@ jobs:
           ${{ secrets.APPLICATION_PROPERTIES }}
           EOF
       
-      
+
       - name: Grant permission to gradlew
         run: chmod +x ./gradlew
 
