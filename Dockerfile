@@ -1,18 +1,18 @@
 # 1) Build 단계: Gradle로 JAR 생성
-FROM gradle:8-jdk17 AS builder
+FROM gradle:8-jdk21 AS builder
 WORKDIR /app
 
 # Gradle Wrapper 스크립트 및 JAR 복사
 COPY gradlew gradlew.bat ./
 COPY gradle/wrapper/gradle-wrapper.properties gradle/wrapper/
-COPY gradle/wrapper/gradle-wrapper.jar gradle/wrapper/
+COPY gradle/wrapper/gradle-wrapper.jar          gradle/wrapper/
 
 # 빌드 스크립트 복사
 COPY build.gradle settings.gradle ./
 
 # 의존성 설치 및 어셈블
 RUN chmod +x gradlew && \
-    ./gradlew clean assemble --no-daemon --stacktrace
+  ./gradlew clean assemble --no-daemon --stacktrace
 
 # 프로젝트 전체 소스 복사
 COPY . .
