@@ -1,4 +1,6 @@
-
+permissions:
+  contents: read
+  actions: write
 
 name: CI/CD Pipeline
 
@@ -32,7 +34,7 @@ jobs:
 
       - name: Expose test-results path
         id: set-path
-        run: echo "::set-output name=dir::build/test-results/test"
+        run: echo "dir=build/test-results/test" >> $GITHUB_OUTPUT
 
   Test_Results:
     name: Test Results
@@ -45,7 +47,7 @@ jobs:
       - name: Upload JUnit report
         uses: actions/upload-test-report@v1
         with:
-          path: ${{ needs.CI.outputs.test-results-dir }}/*.xml
+          path: build/test-results/**/*.xml
         if: always()
 
   CD:
