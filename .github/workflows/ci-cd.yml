@@ -116,7 +116,7 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: belovelace
+          tags: belovelace/blog:latest
 
   # 4. Deploy to EC2
   deploy:
