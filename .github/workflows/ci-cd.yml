@@ -92,9 +92,9 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          dockerfile: Dockerfile
+          file: Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/leets:latest
+          tags: belovelace
 
   # 4. Deploy to EC2
   deploy:
