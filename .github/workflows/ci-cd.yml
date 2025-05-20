@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+      - 신은지/main
 
 jobs:
   CI:
