@@ -1,6 +1,0 @@
-# .dockerignore
-.gradle
-build
-.idea
-.git
-.github
