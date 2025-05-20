@@ -1,6 +1,12 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# 1) Test Reporting 사용을 위해 settings > Actions > General 에서
+#    • Workflow permissions: Read and write
+#    • Allow GitHub Actions to publish test results: Enabled
+# ──────────────────────────────────────────────────────────────────────────────
+
 permissions:
-  contents: read
-  actions: write
+  contents: read      # 코드 체크아웃 등 filesystem 읽기
+  checks: write       # Test Reporting 결과 업로드 권한
 
 name: CI/CD Pipeline
 
@@ -9,6 +15,7 @@ on:
     branches:
       - main
       - 신은지/main
+  workflow_dispatch:  # 수동 실행 버튼도 추가
 
 jobs:
   CI:
@@ -34,12 +41,17 @@ jobs:
 
       - name: Expose test-results path
         id: set-path
+        # set-output 대신 GITHUB_OUTPUT 사용
         run: echo "dir=build/test-results/test" >> $GITHUB_OUTPUT
 
   Test_Results:
     name: Test Results
     needs: CI
     runs-on: ubuntu-latest
+    # 이 Job만 따로 permissions를 다시 지정해도 좋습니다.
+    permissions:
+      checks: write
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -47,7 +59,8 @@ jobs:
       - name: Upload JUnit report
         uses: actions/upload-test-report@v1
         with:
-          path: build/test-results/**/*.xml
+          # 와일드카드로 잡아서 모든 XML 리포트 업로드
+          path: ${{ needs.CI.outputs.test-results-dir }}/*.xml
         if: always()
 
   CD:
@@ -80,7 +93,7 @@ jobs:
             sudo docker pull $IMAGE
             if sudo docker ps -q -f name=blog-app; then
               sudo docker stop blog-app
-              sudo docker rm blog-app
+              sudo docker rm   blog-app
             fi
             sudo docker run -d --name blog-app -p 8282:8282 $IMAGE
           EOF
