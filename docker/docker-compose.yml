@@ -1,15 +1,18 @@
 version: '3.8'
 
 services:
-  app:
+  spring:                                  # ← 여기만 app → spring 으로 변경
     image: belovelace/blog:latest
-    container_name: blog-app
+    container_name: blog-app               # 컨테이너명은 그대로 두셔도 됩니다
     ports:
       - "8080:8080"
     depends_on:
       - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/blog?characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+      SPRING_DATASOURCE_URL: >-
+        jdbc:mysql://db:3306/blog?characterEncoding=UTF-8&
+        useSSL=false&allowPublicKeyRetrieval=true&
+        serverTimezone=Asia/Seoul
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
     restart: always
@@ -28,7 +31,7 @@ services:
     volumes:
       - mysql-data:/var/lib/mysql
       - ./schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
-      - ./dummy\ data.sql:/docker-entrypoint-initdb.d/2_dummy_data.sql
+      - ./dummy data.sql:/docker-entrypoint-initdb.d/2_dummy_data.sql
 
 volumes:
   mysql-data:
