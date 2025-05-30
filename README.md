@@ -2,6 +2,15 @@
 Blog 만들기
 `ex) GET posts/all`
 
+## 6가지 제한
+1. spring security 사용 금지
+2. jpa 사용 금지
+3. lombok 사용금지
+4. indent 최대 2칸 허용
+5. rds 사용 금지
+6. 20줄이 넘는 함수 작성 금지
+
+
 ## ERD
 
 ![블로그 1주차 erd](https://github.com/user-attachments/assets/db86eb59-bba7-45f0-a559-a92fd5cfc210)
