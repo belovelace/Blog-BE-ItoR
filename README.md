@@ -1,5 +1,5 @@
-# Blog-BE-ItoR
-Blog 만들기 프로젝트
+# Blog-BE-ItoR : Blog 만들기 프로젝트
+
 본 프로젝트는 가천대학교 교내 IT학술동아리 'Leets'에서 수행한 토이 프로젝트 입니다.
 ## 6가지 제한
 1. spring security 사용 금지
